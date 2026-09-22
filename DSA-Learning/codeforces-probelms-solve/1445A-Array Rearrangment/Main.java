@@ -11,6 +11,8 @@ public class Main {
             int[] b = new int[m];
             for (int i = 0; i < m; i++) {
                 a[i] = scan.nextInt();
+            }
+            for (int i = 0; i < m; i++) {
                 b[i] = scan.nextInt();
             }
             int c = 0;
