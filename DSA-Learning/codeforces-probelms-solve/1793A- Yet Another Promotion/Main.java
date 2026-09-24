@@ -11,14 +11,13 @@ public class Main {
             long m = sc.nextLong();
             long ans = n * b;
             long groups = n / (m + 1);
-            for (long k = Math.max(0, groups - 2); k <= groups + 2; k++) {
-                long day1Paid = k * m;
-                long day1Got = k * (m + 1);
-                long remaining = Math.max(0, n - day1Got);
-                long cost = day1Paid * a + remaining * b;
+            long promotionCost = m * a;
+            long normalCost = (m + 1) * b;
+            if (promotionCost < normalCost) {
+                long remaining = n % (m + 1);
+                long cost = groups * promotionCost;
+                cost += remaining * Math.min(a, b);
                 ans = Math.min(ans, cost);
-                long costAllDay1 = (day1Paid + remaining) * a;
-                ans = Math.min(ans, costAllDay1);
             }
             System.out.println(ans);
         }
