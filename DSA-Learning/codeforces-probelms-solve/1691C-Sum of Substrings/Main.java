@@ -1,55 +1,55 @@
 import java.util.*;
-
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
+        if (!scan.hasNextInt()) return;
         int t = scan.nextInt();
         while (t-- > 0) {
             int n = scan.nextInt();
             int k = scan.nextInt();
-            String s = scan.next();
-            char[] arr = s.toCharArray();
-            for (int i = n - 2; i >= 0; i--) {
-                if (arr[i] == '1' && arr[n - 1] == '0') {
-                    int moves = n - 1 - i;
-                    if (moves <= k) {
-                        arr[i] = '0';
-                        arr[n - 1] = '1';
-                        k -= moves;
-                    } else {
-                        arr[i] = '0';
-                        arr[i + k] = '1';
-                        k = 0;
-                    }
-                    break;
+            char[] s = scan.next().toCharArray();
+            int first = -1;
+            int last = -1;            
+            for (int i = 0; i < n; i++) {
+                if (s[i] == '1') {
+                    if (first == -1) first = i;
+                    last = i;
                 }
             }
-            for (int i = 1; i < n; i++) {
-                if (arr[i] == '1' && arr[0] == '0') {
-                    int moves = i;
-                    if (moves <= k) {
-                        arr[i] = '0';
-                        arr[0] = '1';
-                        k -= moves;
-                    } else {
-                        arr[i] = '0';
-                        arr[i - k] = '1';
-                        k = 0;
-                    }
-                    break;
+            if (first == -1) {
+                System.out.println(0);
+                continue;
+            }
+            if (first == last) {
+                int costToLast = n - 1 - last;
+                int costToFirst = first;                
+                if (costToLast <= k) {
+                    s[last] = '0';
+                    s[n - 1] = '1';
+                } else if (costToFirst <= k) {
+                    s[first] = '0';
+                    s[0] = '1';
+                }
+            } 
+            else {
+                int costToLast = n - 1 - last;
+                if (costToLast <= k) {
+                    k -= costToLast;
+                    s[last] = '0';
+                    s[n - 1] = '1';
+                }                
+                int costToFirst = first;
+                if (costToFirst <= k) {
+                    s[first] = '0';
+                    s[0] = '1';
                 }
             }
-            long answer = 0;
+                        int ans = 0;
             for (int i = 0; i < n - 1; i++) {
-                if (arr[i] == '1' && arr[i + 1] == '0') {
-                    answer += 10;
-                } else if (arr[i] == '0' && arr[i + 1] == '1') {
-                    answer += 1;
-                } else if (arr[i] == '1' && arr[i + 1] == '1') {
-                    answer += 11;
-                }
+                if (s[i] == '1') ans += 10;
+                if (s[i + 1] == '1') ans += 1;
             }
-            System.out.println(answer);
+            System.out.println(ans);
         }
     }
 }
